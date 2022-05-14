@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Bean;
 
 import java.util.Map;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 
 class ApplicationContextInfoExtendsFindTest {
@@ -40,7 +41,7 @@ class ApplicationContextInfoExtendsFindTest {
         //NoUniqueBeanDefinitionException
         //expected single matching bean but found 2: rateDiscountPolicy,fixDiscountPolicy
 
-        org.assertj.core.api.Assertions.assertThat(bean).isInstanceOf(FixDiscountPolicy.class);
+        assertThat(bean).isInstanceOf(FixDiscountPolicy.class);
 
     }
 
@@ -51,15 +52,32 @@ class ApplicationContextInfoExtendsFindTest {
         //NoUniqueBeanDefinitionException
         //expected single matching bean but found 2: rateDiscountPolicy,fixDiscountPolicy
 
-        org.assertj.core.api.Assertions.assertThat(bean).isInstanceOf(RateDiscountPolicy.class);
+        assertThat(bean).isInstanceOf(RateDiscountPolicy.class);
 
     }
 
     @Test
     @DisplayName("부모 타입으로 모두 조회")
-    void findBeanByParentType() {
+    void findAllBeanByParentType() {
         Map<String, DiscountPolicy> beansOfType = ac.getBeansOfType(DiscountPolicy.class);
-        org.assertj.core.api.Assertions.assertThat(beansOfType.size()).isEqualTo(2);
+        assertThat(beansOfType.size()).isEqualTo(2);
+        for(String key: beansOfType.keySet()){
+            System.out.println("key ="+key+" value= "+beansOfType.get(key));
+        }
+        /*
+        key =rateDiscountPolicy value= hello.core.discount.RateDiscountPolicy@59d2400d
+        key =fixDiscountPolicy value= hello.core.discount.FixDiscountPolicy@75cd8043
+         */
+    }
+
+    @Test
+    @DisplayName("부모 타입으로 모두 조회하기 - Object")
+    void findAllBeanByObjectType(){//스프링에 등록된 모든 객체가 출력된다
+        Map<String, Object> beansOfType = ac.getBeansOfType(Object.class);
+        for(String key: beansOfType.keySet()){
+            System.out.println("key ="+key+" value= "+beansOfType.get(key));
+        }
+
     }
 
     //AppConfig 만들기
