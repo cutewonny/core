@@ -9,9 +9,17 @@ import hello.core.member.MemberServiceImpl;
 import hello.core.member.MemoryMemberRepository;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+//ctrl n
 
 @Configuration
 public class AppConfig {
+    /*
+    여기 있는 애들을 SingletonServcie처럼 싱글톤으로 만들어버리면
+    싱글톤이 적용되겠네? 아니다.
+    스프링컨테이너가 객체를 알아서 싱글톤으로 생성해준다.
+    있는 객체를 재활용한다
+    */
+
     //AppConfig: 생성한 객체 인스턴스의 참조를 -> 생성자를 통해서 -> 주입
     @Bean
     public MemberService memberService(){
