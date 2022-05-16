@@ -6,7 +6,10 @@ import hello.core.discount.RateDiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class OrderServiceImpl implements OrderService{//클라이언트에서 주문을 생성함 return 주문결과
 
 //    private final MemberRepository memberRepository = new MemoryMemberRepository();//회원DB
@@ -21,6 +24,7 @@ public class OrderServiceImpl implements OrderService{//클라이언트에서 �
     private MemberRepository memberRepository;
     private DiscountPolicy discountPolicy;
 
+    @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
         this.discountPolicy = discountPolicy;
@@ -32,5 +36,10 @@ public class OrderServiceImpl implements OrderService{//클라이언트에서 �
         int discountPrice = discountPolicy.discount(member, itemPrice);//멤버에 속한 할인을 가져온다 단일분리 원칙 잘 지킴
 
         return new Order(memberId, itemName, itemPrice, discountPrice);//학인금액까지 전달
+    }
+
+    //테스트 용도
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
